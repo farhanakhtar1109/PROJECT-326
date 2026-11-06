@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DineEase | Smart Restaurant Ordering</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<header class="navbar">
+  <a href="#" class="logo" data-page="home">Dine<span>Ease</span></a>
+
+  <nav>
+    <button data-page="home">Home</button>
+    <button data-page="restaurants">Restaurants</button>
+    <button data-page="menu">Menu</button>
+    <button data-page="cart">Cart <span id="cartCount">0</span></button>
+    <button data-page="orders">My Orders</button>
+    <button data-page="login" id="loginNav">Login</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- HOME / DASHBOARD -->
+  <section class="page active" id="home">
+    <div class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">SMART DINING EXPERIENCE</p>
+        <h1>Your Table.<br><span>Your Food.</span><br>Your Time.</h1>
+        <p>Discover restaurants, pre-order your favourite food and enjoy a stress-free dining experience.</p>
+        <button class="primary-btn" data-page="restaurants">Explore Restaurants</button>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1000" alt="Restaurant interior">
+      </div>
+    </div>
+
+    <section class="promo-section">
+      <div class="promo-text">
+        <p class="eyebrow">OUR MAIN FEATURE</p>
+        <h2>Skip the Wait.<br><span>Pre-Order Your Meal!</span></h2>
+        <p>
+          Why wait for your food after reaching the restaurant?
+          Select your restaurant, choose your dishes and place your
+          pre-order before arriving. Your meal will be prepared around
+          your arrival time.
+        </p>
+        <ul class="feature-list">
+          <li>✓ Choose your restaurant and favourite dishes</li>
+          <li>✓ Select your arrival date and time</li>
+          <li>✓ Add guest details and special instructions</li>
+          <li>✓ Save time and enjoy a smooth dining experience</li>
+        </ul>
+        <button class="primary-btn" data-page="restaurants">Start Pre-Ordering</button>
+      </div>
+      <div class="promo-image">
+        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=900" alt="Delicious meal">
+        <div class="floating-card">
+          <strong>PRE-ORDER NOW</strong>
+          <span>Your food, ready around your arrival.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <p class="eyebrow">HOW IT WORKS</p>
+        <h2>Dining Made Simple</h2>
+      </div>
+      <div class="steps-grid">
+        <article class="step-card">
+          <span>01</span><h3>Choose Restaurant</h3>
+          <p>Select your state, city and preferred restaurant.</p>
+        </article>
+        <article class="step-card">
+          <span>02</span><h3>Select Your Food</h3>
+          <p>Explore the menu and add dishes to your cart.</p>
+        </article>
+        <article class="step-card">
+          <span>03</span><h3>Confirm Pre-Order</h3>
+          <p>Enter your arrival details and confirm your order.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <p class="eyebrow">EXPLORE</p>
+        <h2>Everything in One Place</h2>
+      </div>
+      <div class="quick-grid">
+        <article class="quick-card">
+          <h3>Restaurants</h3><p>Explore restaurants across cities.</p>
+          <button class="text-btn" data-page="restaurants">Explore →</button>
+        </article>
+        <article class="quick-card">
+          <h3>Food Menu</h3><p>Discover delicious dishes.</p>
+          <button class="text-btn" data-page="menu">View Menu →</button>
+        </article>
+        <article class="quick-card">
+          <h3>My Orders</h3><p>Track your placed orders.</p>
+          <button class="text-btn" data-page="orders">View Orders →</button>
+        </article>
+      </div>
+    </section>
+  </section>
+
+  <!-- RESTAURANTS -->
+  <section class="page" id="restaurants">
+    <div class="page-banner">
+      <p class="eyebrow">FIND YOUR FAVOURITE PLACE</p>
+      <h1>Explore Restaurants</h1>
+      <p>Choose your location and discover restaurants around you.</p>
+    </div>
+
+    <div class="filter-panel">
+      <div class="field">
+        <label for="stateSelect">Select State</label>
+        <select id="stateSelect">
+          <option value="">Choose State</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="citySelect">Select City</label>
+        <select id="citySelect" disabled>
+          <option value="">Choose City</option>
+        </select>
+      </div>
+    </div>
+    <div id="restaurantGrid" class="restaurant-grid">
+      <p class="empty-message">Select a state and city to explore restaurants.</p>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="page" id="menu">
+    <div class="page-banner">
+      <p class="eyebrow">FRESHLY PREPARED</p>
+      <h1>Explore Our Menu</h1>
+      <p id="menuRestaurantName">Choose delicious food for your next meal.</p>
+    </div>
+    <div class="menu-grid" id="menuGrid"></div>
+  </section>
+
+  <!-- CART -->
+  <section class="page" id="cart">
+    <div class="page-banner">
+      <p class="eyebrow">YOUR SELECTION</p>
+      <h1>Your Cart</h1>
+      <p>Review your selected dishes before checkout.</p>
+    </div>
+    <div class="cart-layout">
+      <div id="cartItems" class="cart-items"></div>
+      <aside class="summary-card">
+        <h2>Order Summary</h2>
+        <div class="summary-line"><span>Subtotal</span><strong id="cartSubtotal">₹0</strong></div>
+        <div class="summary-line"><span>Taxes (5%)</span><strong id="cartTax">₹0</strong></div>
+        <div class="summary-line total-line"><span>Total</span><strong id="cartTotal">₹0</strong></div>
+        <button class="primary-btn full-btn" id="checkoutBtn">Proceed to Checkout</button>
+        <button class="secondary-btn full-btn" data-page="restaurants">Continue Shopping</button>
+      </aside>
+    </div>
+  </section>
+
+  <!-- CHECKOUT -->
+  <section class="page" id="checkout">
+    <div class="page-banner">
+      <p class="eyebrow">ALMOST THERE</p>
+      <h1>Checkout</h1>
+      <p>Choose how you want to receive your order.</p>
+    </div>
+
+    <div class="checkout-layout">
+      <div class="checkout-form">
+
+        <div class="form-card">
+          <h2>Choose Order Type</h2>
+          <div class="order-type-options">
+            <label class="choice-card">
+              <input type="radio" name="orderType" value="preorder" checked>
+              <span><strong>Restaurant Pre-Order</strong><small>Visit the restaurant and enjoy your pre-selected meal.</small></span>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="orderType" value="delivery">
+              <span><strong>Home Delivery</strong><small>Get your food delivered to your address.</small></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- PRE-ORDER DETAILS -->
+        <div class="form-card" id="preorderFields">
+          <p class="eyebrow">SKIP THE WAIT</p>
+          <h2>Pre-Ordering Details</h2>
+          <p class="form-description">Tell us when you are arriving so the restaurant can prepare your meal.</p>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="customerName">Customer Full Name *</label>
+              <input id="customerName" type="text" placeholder="Enter your full name">
+            </div>
+            <div class="field">
+              <label for="customerPhone">Phone Number *</label>
+              <input id="customerPhone" type="tel" maxlength="10" placeholder="10-digit mobile number">
+            </div>
+            <div class="field">
+              <label for="customerEmail">Email Address</label>
+              <input id="customerEmail" type="email" placeholder="Enter your email">
+            </div>
+            <div class="field">
+              <label for="guestCount">Number of Guests *</label>
+              <select id="guestCount">
+                <option value="">Select guests</option>
+                <option>1</option><option>2</option><option>3</option>
+                <option>4</option><option>5</option><option>6</option>
+                <option>7</option><option>8</option><option>9</option>
+                <option>10</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="arrivalDate">Expected Arrival Date *</label>
+              <input id="arrivalDate" type="date">
+            </div>
+            <div class="field">
+              <label for="arrivalTime">Expected Arrival Time *</label>
+              <input id="arrivalTime" type="time">
+            </div>
+            <div class="field">
+              <label for="seating">Seating Preference</label>
+              <select id="seating">
+                <option value="No preference">No preference</option>
+                <option>Indoor</option>
+                <option>Outdoor</option>
+                <option>Window Side</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="occasion">Occasion</label>
+              <select id="occasion">
+                <option value="Regular Visit">Regular Visit</option>
+                <option>Birthday</option>
+                <option>Anniversary</option>
+                <option>Family Dinner</option>
+                <option>Business Meeting</option>
+                <option>Friends Gathering</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="dietPreference">Dietary Preference</label>
+              <select id="dietPreference">
+                <option>Any</option>
+                <option>Vegetarian</option>
+                <option>Non-Vegetarian</option>
+                <option>Vegan</option>
+                <option>Jain</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="allergyInfo">Allergy Information</label>
+              <input id="allergyInfo" type="text" placeholder="e.g. peanuts, dairy">
+            </div>
+          </div>
+
+          <div class="field full-field">
+            <label for="specialInstructions">Special Instructions</label>
+            <textarea id="specialInstructions" rows="4" placeholder="Tell the restaurant your preferences, food customizations, less spicy, extra cheese, birthday decoration, etc."></textarea>
+          </div>
+        </div>
+
+        <!-- DELIVERY DETAILS -->
+        <div class="form-card hidden" id="addressFields">
+          <h2>Home Delivery Address</h2>
+          <div class="form-grid">
+            <div class="field">
+              <label for="deliveryName">Full Name *</label>
+              <input id="deliveryName" type="text" placeholder="Your name">
+            </div>
+            <div class="field">
+              <label for="deliveryPhone">Phone Number *</label>
+              <input id="deliveryPhone" type="tel" maxlength="10" placeholder="10-digit mobile number">
+            </div>
+            <div class="field full-field">
+              <label for="deliveryAddress">House No. / Street / Area *</label>
+              <textarea id="deliveryAddress" rows="3" placeholder="Enter complete delivery address"></textarea>
+            </div>
+            <div class="field">
+              <label for="deliveryCity">City *</label>
+              <input id="deliveryCity" type="text" placeholder="City">
+            </div>
+            <div class="field">
+              <label for="deliveryPincode">PIN Code *</label>
+              <input id="deliveryPincode" type="text" maxlength="6" placeholder="6-digit PIN code">
+            </div>
+            <div class="field full-field">
+              <label for="deliveryLandmark">Landmark (Optional)</label>
+              <input id="deliveryLandmark" type="text" placeholder="Nearby landmark">
+            </div>
+          </div>
+        </div>
+
+        <!-- PAYMENT -->
+        <div class="form-card">
+          <h2>Payment Method</h2>
+          <div class="payment-options">
+            <label><input type="radio" name="payment" value="UPI" checked> UPI / QR Payment</label>
+            <label><input type="radio" name="payment" value="Card"> Credit / Debit Card</label>
+            <label><input type="radio" name="payment" value="Cash"> Cash at Restaurant / Delivery</label>
+          </div>
+          <p class="demo-note">Demo payment only: no real money will be charged.</p>
+        </div>
+
+        <button class="primary-btn full-btn" id="placeOrderBtn">Confirm Order</button>
+      </div>
+
+      <aside class="summary-card checkout-summary">
+        <h2>Final Summary</h2>
+        <div id="checkoutItems"></div>
+        <div class="summary-line"><span>Subtotal</span><strong id="checkoutSubtotal">₹0</strong></div>
+        <div class="summary-line"><span>Taxes (5%)</span><strong id="checkoutTax">₹0</strong></div>
+        <div class="summary-line"><span>Delivery Fee</span><strong id="deliveryFee">₹0</strong></div>
+        <div class="summary-line total-line"><span>Total</span><strong id="checkoutTotal">₹0</strong></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- LOGIN -->
+  <section class="page" id="login">
+    <div class="login-wrapper">
+      <div class="login-card">
+        <p class="eyebrow">WELCOME TO DINEEASE</p>
+        <h1>Account Access</h1>
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="loginTab">Login</button>
+          <button class="auth-tab" id="signupTab">Create Account</button>
+        </div>
+        <form id="authForm">
+          <div class="field">
+            <label for="authName" id="authNameLabel" class="hidden">Full Name</label>
+            <input id="authName" class="hidden" type="text" placeholder="Your full name">
+          </div>
+          <div class="field">
+            <label for="authEmail">Email</label>
+            <input id="authEmail" type="email" placeholder="Enter email" required>
+          </div>
+          <div class="field">
+            <label for="authPassword">Password</label>
+            <input id="authPassword" type="password" placeholder="Enter password" required>
+          </div>
+          <button class="primary-btn full-btn" type="submit" id="authSubmit">Login</button>
+        </form>
+        <p id="authMessage" class="message"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORDERS -->
+  <section class="page" id="orders">
+    <div class="page-banner">
+      <p class="eyebrow">YOUR DINING HISTORY</p>
+      <h1>My Orders</h1>
+      <p>View your previous pre-orders and delivery orders.</p>
+    </div>
+    <div id="ordersList" class="orders-list"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">Dine<span>Ease</span></div>
+  <p>Smart Pre-Ordering. Better Dining. Less Waiting.</p>
+  <p class="copyright">© 2026 DineEase. Student Project Demo.</p>
+</footer>
+
+<div id="toast" class="toast"></div>
+
+</body>
+</html>
